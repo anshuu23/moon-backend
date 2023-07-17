@@ -1,6 +1,6 @@
 const ws=require('ws');
 const wss =new ws.WebSocketServer({
-    port:3000
+    port:4000
 },()=>{
     console.log(`server is running on port :3000`)
 })
@@ -8,6 +8,23 @@ const wss =new ws.WebSocketServer({
 const clients=[]
 wss.on('connection',function(ws){
     clients.push(ws)
+
+
+    const mysql= require('mysql2')
+const connection= mysql.createConnection({
+    host :'sql.freedb.tech',
+    user :'freedb_anshujoshi',
+    password :'q97tMpRbMEKekV#',
+    database:'freedb_chattingapp',
+    insecureAuth: true 
+})
+connection.connect((err)=>{
+    if(err){
+    console.log(err);
+    return;}
+    console.log("connection to database successfull")
+})
+
     
     console.log("connected to frontend")
     connection.query(`select * from chattingapp`,(err,result,fields)=>{
@@ -44,18 +61,4 @@ wss.on('connection',function(ws){
 
 
 
-const mysql= require('mysql2')
-const connection= mysql.createConnection({
-    host :'sql.freedb.tech',
-    user :'freedb_anshujoshi',
-    password :'q97tMpRbMEKekV#',
-    database:'freedb_chattingapp',
-    insecureAuth: true 
-})
-connection.connect((err)=>{
-    if(err){
-    console.log(err);
-    return;}
-    console.log("connection to database successfull")
-})
 
